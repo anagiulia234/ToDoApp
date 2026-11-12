@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView  } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,9 +25,13 @@ const resgatarDadosLocal = async () => {
     setListaTarefas(JSON.parse(dadosJSONLidos));
   }
 }catch (error) {
-  console.error('Erro ao resgatar dados locais:', error);
+  console.error('Erro ao resgatar dados:', error);
 }
 };
+useEffect(() => {
+    // O código aqui dentro rodará assim que o celular acender!
+    resgatarDadosLocal();
+}, []);
 
   return (
     <View style={styles.container}>
@@ -39,11 +43,8 @@ const resgatarDadosLocal = async () => {
         style={styles.caixa}
         placeholder="Digite a anotação..."
         />
-      <TouchableOpacity style={styles.botao} onPress={()=>  {adicionarTarefa(), salvarDadosLocal()}}>
+      <TouchableOpacity style={styles.botao} onPress={()=>  {adicionarTarefa(), salvarDadosLocal(listaTarefas)}}>
         <Text style={styles.mais}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.botao} onPress={()=>  {resgatarDadosLocal()}}>
-        <Text style={styles.mais}>↻</Text>
       </TouchableOpacity>
     </View>
 
