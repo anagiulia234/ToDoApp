@@ -24,7 +24,7 @@ const [tarefaAtual, setTarefaAtual] = useState('');
         style={styles.caixa}
         placeholder="Digite a anotação..."
         />
-      <TouchableOpacity style={styles.botao} onPress={()=>  {setListaTarefas([...listaTarefas, tarefaAtual]);setTarefaAtual('');}}>
+      <TouchableOpacity style={styles.botao} onPress={()=>  {adicionarTarefa(), salvarTeste()}}>
         <Text style={styles.mais}>+</Text>
       </TouchableOpacity>
     </View>
