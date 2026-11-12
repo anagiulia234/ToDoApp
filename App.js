@@ -9,9 +9,15 @@ const [tarefaAtual, setTarefaAtual] = useState('');
     const adicionarTarefa = () => {
       setListaTarefas([...listaTarefas, tarefaAtual]);
     };
- const salvarTeste = async () => {
-    await AsyncStorage.setItem('chave_secreta', 'Felipe');
-    console.log('Teste salvo no cofre!');
+   const salvarDadosLocal = async () => {
+   const listaString = JSON.stringify(listaTarefas);
+   await AsyncStorage.setItem('minhas_tarefas', listaString);
+}
+const resgatarDadosLocal = async () => {
+  const listaString = await AsyncStorage.getItem('minhas_tarefas');
+  if (listaString) {
+    setListaTarefas(JSON.parse(listaString));
+  }
 }
 
   return (
@@ -24,8 +30,11 @@ const [tarefaAtual, setTarefaAtual] = useState('');
         style={styles.caixa}
         placeholder="Digite a anotação..."
         />
-      <TouchableOpacity style={styles.botao} onPress={()=>  {adicionarTarefa(), salvarTeste()}}>
+      <TouchableOpacity style={styles.botao} onPress={()=>  {adicionarTarefa(), salvarDadosLocal()}}>
         <Text style={styles.mais}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.botao} onPress={()=>  {resgatarDadosLocal()}}>
+        <Text style={styles.mais}>↻</Text>
       </TouchableOpacity>
     </View>
 
