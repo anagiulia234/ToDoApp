@@ -9,16 +9,25 @@ const [tarefaAtual, setTarefaAtual] = useState('');
     const adicionarTarefa = () => {
       setListaTarefas([...listaTarefas, tarefaAtual]);
     };
-   const salvarDadosLocal = async () => {
-   const listaString = JSON.stringify(listaTarefas);
-   await AsyncStorage.setItem('minhas_tarefas', listaString);
+   const salvarDadosLocal = async (listaDeDados) => {
+    try {
+   const dadosJSON = JSON.stringify(listaDeDados);
+   await AsyncStorage.setItem('minhas_tarefas', dadosJSON);
+}catch (error) {
+  console.error('Erro ao salvar dados:', error);
 }
+};
+
 const resgatarDadosLocal = async () => {
-  const listaString = await AsyncStorage.getItem('minhas_tarefas');
-  if (listaString) {
-    setListaTarefas(JSON.parse(listaString));
+  try {
+  const dadosJSONLidos = await AsyncStorage.getItem('minhas_tarefas');
+  if (dadosJSONLidos !== null) {
+    setListaTarefas(JSON.parse(dadosJSONLidos));
   }
+}catch (error) {
+  console.error('Erro ao resgatar dados locais:', error);
 }
+};
 
   return (
     <View style={styles.container}>
